@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7UP 7DOWN Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgb(232, 211, 172)
+            , rgb(219, 178, 102));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .main {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 50px 20px;
+        }
+
+        .choice {
+            display: flex;
+            gap: 20px;
+        }
+
+        .seven-up, .seven, .seven-down {
+            height: 160px;
+            width: 160px;
+            background: orange;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .seven-up:hover, .seven:hover, .seven-down:hover {
+            transform: scale(1.05);
+            background-color: rgb(228, 150, 6);
+        }
+
+        .input {
+            text-align: center;
+        }
+
+        .input input, .input button {
+            margin-top: 20px;
+            width: 250px;
+            height: 45px;
+            font-size: 18px;
+            padding: 5px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .input button {
+            background-color: rgb(120, 210, 120);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input button:hover {
+            background-color: rgb(149, 213, 149);
+        }
+
+        .immg {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .immg img {
+            height: 120px;
+            width: 120px;
+            object-fit: contain;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 24px;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="choice">
+            <div class="seven-up">7UP</div>
+            <div class="seven">7</div>
+            <div class="seven-down">7DOWN</div>
+        </div>
+
+        <div class="input">
+            <input type="text" id="inp" placeholder="Enter your bet">
+            <button onclick="roll()">Start the game</button><br><br><br><br><br>
+        </div>
+    </div>
+
+    <div class="immg">
+        <img src="" class="img1" alt="">
+        <img src="" class="img2" alt="">
+    </div>
+
+    <h1></h1>
+
+    <script>
+        document.getElementsByClassName('seven-up')[0].addEventListener('click', choice7up)
+        document.getElementsByClassName('seven')[0].addEventListener('click', choice7)
+        document.getElementsByClassName('seven-down')[0].addEventListener('click', choice7down)
+
+        function choice7up() {
+            choice = '7up'
+            document.getElementsByClassName('seven')[0].style.display = 'none'
+            document.getElementsByClassName('seven-down')[0].style.display = 'none'
+            document.getElementsByClassName('seven-up')[0].style.display = 'block'
+        }
+
+        function choice7() {
+            choice = '7'
+            document.getElementsByClassName('seven')[0].style.display = 'block'
+            document.getElementsByClassName('seven-down')[0].style.display = 'none'
+            document.getElementsByClassName('seven-up')[0].style.display = 'none'
+        }
+
+        function choice7down() {
+            choice = '7down'
+            document.getElementsByClassName('seven')[0].style.display = 'none'
+            document.getElementsByClassName('seven-down')[0].style.display = 'block'
+            document.getElementsByClassName('seven-up')[0].style.display = 'none'
+        }
+
+        let balance = 0
+        let choice = ""
+        let l = [1, 2, 3, 4, 5, 6]
+
+        function roll() {
+            let bet = document.getElementById('inp').value
+            N = Math.floor(Math.random() * 6)
+            V = Math.floor(Math.random() * 6)
+            document.getElementsByClassName('img1')[0].setAttribute('src', `/image/d${l[N]}.jpg`)
+            document.getElementsByClassName('img2')[0].setAttribute('src', `/image/d${l[V]}.jpg`)
+
+            const result = l[N] + l[V]
+            let h1 = document.querySelector('h1')
+
+            if (result == 7 && choice == '7') {
+                balance = bet * 3
+                h1.innerHTML = `You Won 3X of the amount, your balance: ${balance}`
+            } else if (result < 7 && choice == '7down') {
+                balance = bet * 2
+                h1.innerHTML = `You won 2X of the amount, your balance: ${balance}`
+            } else if (result > 7 && choice == '7up') {
+                balance = bet * 2
+                h1.innerHTML = `You won 2X of the amount, your balance: ${balance}`
+            } else {
+                balance = balance - bet
+                h1.innerHTML = `You Lost, your balance: ${balance}`
+            }
+
+            document.getElementsByClassName('seven')[0].style.display = 'block'
+            document.getElementsByClassName('seven-down')[0].style.display = 'block'
+            document.getElementsByClassName('seven-up')[0].style.display = 'block'
+        }
+    </script>
+</body>
+</html>
